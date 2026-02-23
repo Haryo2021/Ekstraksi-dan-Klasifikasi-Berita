@@ -9,3 +9,9 @@ numpy
 pandas
 transformers
 torch
+transformers
+sentencepiece
+protobuf
+beautifulsoup4
+requests
+PySastrawi
