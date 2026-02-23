@@ -1,0 +1,8 @@
+streamlit
+nltk
+scikit-learn
+joblib
+requests
+beautifulsoup4
+Sastrawi
+numpy
