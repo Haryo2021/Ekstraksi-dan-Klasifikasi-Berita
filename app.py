@@ -1,0 +1,43 @@
+import streamlit as st
+from src.model_loader import load_model
+from mode.link import run_link_mode
+from mode.manual import run_manual_mode
+from src.ui import render_header
+
+
+st.set_page_config(page_title="Ekstraksi dan Klasifikasi Berita", layout="centered")
+st.markdown(f"""<h1 style=
+                "text-align: center;
+                color: #000000;">
+                Klasifikasi berita dan Ekstraksi poin penting pada berita Hukum, Politik, dan Teknologi.
+                </h1>
+                 """, unsafe_allow_html=True)
+st.subheader("Aplikasi ini akan mengambil poin penting pada berita agar dapat memahami konteks pada berita yang ingin dibaca.")
+
+render_header()
+
+model, vectorizer = load_model()
+
+if "mode" not in st.session_state:
+    st.session_state.mode = "Link berita"
+
+st.write("Pilih mode inputan: ")
+col1, col2 = st.columns(2)
+
+with col1:
+    is_link = st.session_state.mode == "Link berita"
+    if st.button("Mode link", use_container_width=True, type="primary" if is_link else "secondary"):
+        st.session_state.mode = "Link berita"
+
+with col2:
+    is_manual = st.session_state.mode == "Teks manual"
+    if st.button("Mode manual", use_container_width=True, type="primary" if is_manual else "secondary"):
+        st.session_state.mode = "Teks manual"
+
+if model and vectorizer:    
+    if st.session_state.mode == "Link berita":
+        run_link_mode(model, vectorizer)
+    else:
+        run_manual_mode(model, vectorizer)
+else:
+    st.error("Model tidak tersedia, pastikan file pkl model dan vectorizer ada.")
