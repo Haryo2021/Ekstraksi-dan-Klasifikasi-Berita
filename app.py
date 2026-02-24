@@ -4,12 +4,18 @@ from mode.link import run_link_mode
 from mode.manual import run_manual_mode
 from src.ui import render_header
 import nltk 
+import os
 
 @st.cache_resource
-def download_nltk():
-    nltk.download('punkt')
+def setup_nltk():
+    nltk_data_path = "/home/appuser/nltk_data"
+    os.makedirs(nltk_data_path, exist_ok=True)
+    nltk.data.path.append(nltk_data_path)
 
-download_nltk()
+    nltk.download("punkt", download_dir=nltk_data_path)
+    nltk.download("punkt_tab", download_dir=nltk_data_path)
+
+setup_nltk()
 
 if "reset_values" not in st.session_state:
     st.session_state.reset_values = 0
