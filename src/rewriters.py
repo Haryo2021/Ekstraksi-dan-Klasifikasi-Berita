@@ -3,6 +3,7 @@ import streamlit as st
 import re
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
+torch.manual_seed(42)
 
 MODEL_NAME = "cahya/bert2bert-indonesian-summarization"
 
@@ -33,6 +34,10 @@ def rewrite_list_of_sentences(text):
     if not isinstance(text, str):
         text = str(text)
 
+    import nltk
+    sentences = nltk.sent_tokenize(text)
+    text = " ".join(sentences[:5])
+
     tokenizer, model = load_model()
 
     inputs = tokenizer(
@@ -44,9 +49,12 @@ def rewrite_list_of_sentences(text):
 
     summary_ids = model.generate(
         inputs["input_ids"],
-        min_length=20,
-        max_length=80,
-        num_beams=4,
+        min_length=30,
+        max_length=120,
+        num_beams=6,
+        repetition_penalty=2.2,
+        no_repeat_ngram_size=3,
+        length_penalty=1.2,
         early_stopping=True
     )
 
