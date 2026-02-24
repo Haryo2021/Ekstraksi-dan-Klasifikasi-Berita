@@ -3,6 +3,13 @@ from src.model_loader import load_model
 from mode.link import run_link_mode
 from mode.manual import run_manual_mode
 from src.ui import render_header
+import nltk 
+
+@st.cache_resource
+def download_nltk():
+    nltk.download('punkt')
+
+download_nltk()
 
 if "reset_values" not in st.session_state:
     st.session_state.reset_values = 0
