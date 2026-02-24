@@ -4,8 +4,14 @@ from mode.link import run_link_mode
 from mode.manual import run_manual_mode
 from src.ui import render_header
 
+if "reset_values" not in st.session_state:
+    st.session_state.reset_values = 0
+
+if "mode" not in st.session_state:
+    st.session_state.mode = "Link berita"
 
 st.set_page_config(page_title="Ekstraksi dan Klasifikasi Berita", layout="centered")
+
 st.markdown(f"""<h1 style=
                 "text-align: center;
                 color: #000000;">
