@@ -7,6 +7,11 @@ torch.manual_seed(42)
 
 MODEL_NAME = "cahya/bert2bert-indonesian-summarization"
 
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+    
 @st.cache_resource
 def load_model():
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
@@ -61,3 +66,4 @@ def rewrite_list_of_sentences(text):
     rewritten = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
 
     return post_process_text(rewritten)
+
