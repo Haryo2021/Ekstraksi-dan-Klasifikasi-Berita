@@ -52,20 +52,21 @@ def rewrite_list_of_sentences(text):
         truncation=True
     )
 
-summary_ids = model.generate(
-    inputs["input_ids"],
-    min_length=30,
-    max_length=120,
-    do_sample=True,
-    temperature=0.7,
-    top_k=50,
-    top_p=0.9,
-    repetition_penalty=2.0,
-    no_repeat_ngram_size=3
-)
-
+    summary_ids = model.generate(
+        inputs["input_ids"],
+        min_length=30,
+        max_length=120,
+        num_beams=6,
+        repetition_penalty=2.2,
+        no_repeat_ngram_size=3,
+        length_penalty=1.2,
+        early_stopping=True,
+        do_sample=False
+    )
+    
     rewritten = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
 
     return post_process_text(rewritten)
+
 
 
