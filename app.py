@@ -5,11 +5,7 @@ from mode.manual import run_manual_mode
 from src.ui import render_header
 import nltk 
 import os
-from huggingface_hub import login
 
-if "HF_TOKEN" in st.secrets:
-    login(token=st.secrets["HF_TOKEN"])
-    
 @st.cache_resource
 def setup_nltk():
     nltk_data_path = "/home/appuser/nltk_data"
