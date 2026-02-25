@@ -7,9 +7,8 @@ import nltk
 import os
 from huggingface_hub import login
 
-hf_token = os.getenv("HF_TOKEN")
-if hf_token:
-    login(token=hf_token)
+if "HF_TOKEN" in st.secrets:
+    login(token=st.secrets["HF_TOKEN"])
     
 @st.cache_resource
 def setup_nltk():
